@@ -1,0 +1,25 @@
+<mat-radio-group [(ngModel)]="co2prokm" aria-label="Select an option" (change)="auto()">
+    <p>
+        <mat-radio-button value="26.5">Diesel</mat-radio-button>
+    </p>
+    <p>
+        <mat-radio-button value="23.8">Benzin</mat-radio-button>
+    </p>
+    <p>
+        <mat-radio-button value="0">Elektrisch</mat-radio-button>
+    </p>
+</mat-radio-group>
+<p>
+    <mat-form-field class="example-full-width">
+        <mat-label>Strecke</mat-label>
+        <input [(ngModel)]="km" matInput placeholder="..." type="number" step="10" min="0" (change)="auto()">
+    </mat-form-field>km
+</p>
+<p>
+    <mat-form-field class="example-full-width">
+        <mat-label>verbrauch</mat-label>
+        <input [(ngModel)]="verbrauch" matInput placeholder="..." type="number" step="0.1" (change)="auto()">
+    </mat-form-field>l/100km
+</p>
+
+{{km*verbrauch*co2prokm + "g"}}
