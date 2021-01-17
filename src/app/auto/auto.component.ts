@@ -8,10 +8,10 @@ import { kMaxLength } from 'buffer';
 })
 export class AutoComponent implements OnInit {
  
-  auto_co2;
-  km;
-  verbrauch;
-  co2prokm;
+  auto_co2=0;
+  km 
+  verbrauch
+  co2prokm=0;
   auto() {
     
 

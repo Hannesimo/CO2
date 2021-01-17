@@ -6,6 +6,9 @@
         <mat-radio-button value="23.8">Benzin</mat-radio-button>
     </p>
     <p>
+        <mat-radio-button value="23.8">Autogas</mat-radio-button>
+    </p>
+    <p>
         <mat-radio-button value="0">Elektrisch</mat-radio-button>
     </p>
 </mat-radio-group>
@@ -18,8 +21,8 @@
 <p>
     <mat-form-field class="example-full-width">
         <mat-label>verbrauch</mat-label>
-        <input [(ngModel)]="verbrauch" matInput placeholder="..." type="number" step="0.1" (change)="auto()">
+        <input [(ngModel)]="verbrauch" matInput placeholder="..." type="number" step="0.1" (change)="auto()" min="0">
     </mat-form-field>l/100km
 </p>
 
-{{km*verbrauch*co2prokm + "g"}}
+CO2:{{km*verbrauch*co2prokm + "g"}}

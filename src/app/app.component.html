@@ -1,32 +1,28 @@
 <h1>Ökologischer Fußabdruck</h1>
 
+
+<mat-form-field appearance="fill">
+    <mat-label>Zeitraum</mat-label>
+    <select matNativeControl required>
+        <option value="1 Jahr">1 Jahr</option>
+        <option value="1 Monat">1 Monat</option>
+        <option value="1 Woche">1 Woche</option>
+        <option value="1 Tag">1 Tag</option>
+    </select>
+</mat-form-field>
+<mat-form-field class="example-full-width">
+    <mat-label>Personen im Haushalt</mat-label>
+    <input [(ngModel)]="Personen_im_Haushalt" matInput placeholder="..." type="number" (change)=strom() min="1" step="1"
+        class="pers">
+</mat-form-field>
 <mat-tab-group>
+
     <mat-tab label="Auto">
-        <!--   <mat-radio-group [(ngModel)]="co2prokm" aria-label="Select an option" (change)="auto()">
-            <p>
-                <mat-radio-button value="26.5">Diesel</mat-radio-button>
-            </p>
-            <p>
-                <mat-radio-button value="23.8">Benzin</mat-radio-button>
-            </p>
-            <p>
-                <mat-radio-button value="0">Elektrisch</mat-radio-button>
-            </p>
-        </mat-radio-group>
-    <p>
-        <mat-form-field class="example-full-width">
-            <mat-label>Strecke</mat-label>
-            <input [(ngModel)]="km" matInput placeholder="..." type="number" step="10" change="Auto()" min="0"
-                (change)="auto()">
-        </mat-form-field>km 
-    </p>
-    <p>
-        <mat-form-field class="example-full-width">
-            <mat-label>verbrauch</mat-label>
-            <input [(ngModel)]="verbrauch" matInput placeholder="..." type="number" step="0.1" (change)="auto()">
-        </mat-form-field>l/100km
-    </p> -->
-        <app-auto></app-auto>
+        <div *ngFor="let item of aut">
+            <app-auto></app-auto>
+            <h2></h2>
+        </div>
+        <button mat-stroked-button (click)="authinzu()">Fahrzeug Hinzufügen</button>
 
     </mat-tab>
     <mat-tab label="Strom">
@@ -38,12 +34,14 @@
         </mat-radio-group>
         <p>
             <mat-form-field class="example-full-width">
-                <mat-label>Kwh</mat-label>
-                <input [(ngModel)]="kwh" matInput placeholder="..." type="number" (change)=strom()>
-            </mat-form-field>
-
+                <mat-label>Stromverbrauch</mat-label>
+                <input [(ngModel)]="kwh" matInput placeholder="..." type="number" (change)=strom() min="0">
+            </mat-form-field>Kwh
         </p>
-        {{kwh*co2prokwh + "g"}}
+        CO2 im Haushalt: {{kwh*co2prokwh }}g
+        <p>
+            CO2 pro Person: {{kwh*co2prokwh /Personen_im_Haushalt}}g
+        </p>
     </mat-tab>
     <mat-tab label="Wasser">
         <p>
@@ -52,21 +50,30 @@
                 <input [(ngModel)]="leit_h2o_ver" matInput placeholder="..." type="number" step="10" (change)=wasser()>
             </mat-form-field>l
         </p>
-        {{leit_h2o_ver*co2prolleitung+g}}
+        CO2 im Haushalt: {{leit_h2o_ver*co2prolleitung }}g
+        <p>
+            CO2 pro Person: {{leit_h2o_ver*co2prolleitung /Personen_im_Haushalt}}g
+        </p>
         <p>
             <mat-form-field class="example-full-width">
                 <mat-label>Flaschenwasser</mat-label>
                 <input [(ngModel)]="fla_h2o_ver" matInput placeholder="..." type="number" step="10" (change)=wasser()>
             </mat-form-field>l
-        </p>{{fla_h2o_ver*co2prolflasche+"g"}}
+        </p>CO2: {{fla_h2o_ver*co2prolflasche }}g
     </mat-tab>
     <mat-tab label="Urlaub">
+        <p> </p>
+        Auto:
+        <app-auto></app-auto>
+        <h2></h2>
+        Flüge:
         <p>
             <mat-form-field class="example-full-width">
-                <mat-label>Flüge</mat-label>
+                <mat-label>Strecke</mat-label>
                 <input [(ngModel)]="flug_km" matInput placeholder="..." type="number" step="10">
             </mat-form-field>km
-        </p>{{flug_km*co2prokmflug+"g"}}
+        </p>CO2: {{flug_km*co2prokmflug }}g
+
 
     </mat-tab>
     <mat-tab label="Internet">
@@ -76,7 +83,7 @@
                 <input [(ngModel)]="internet_gbit" matInput placeholder="..." type="number" step="1">
             </mat-form-field>Gbyt
         </p>
-        {{internet_gbit * g_pro_gbit + g}}
+        CO2: {{internet_gbit * g_pro_gbit }}g
 
     </mat-tab>
     <mat-tab label="Heizung">
@@ -90,36 +97,41 @@
                 <mat-radio-button value=co2prolöl>Öl</mat-radio-button>
             </p>
             <p>
+                <mat-radio-button value=Co2prom3gas>Gas</mat-radio-button>
+            </p>
+            <p>
                 <mat-radio-button value=co2prokwh>Strom</mat-radio-button>
             </p>
+
             <p>
                 <mat-radio-button value="40">Photovoltaik</mat-radio-button>
             </p>
         </mat-radio-group>
-        <p>
+        <p *ngIf="heizart != 40">
             <mat-form-field class="example-full-width">
                 <mat-label>Menge</mat-label>
-                <input [(ngModel)]="heitzmenge" matInput placeholder="..." type="number" (change)=heizung()>
+                <input type=menge [(ngModel)]="heitzmenge" matInput placeholder="..." type="number" (change)=heizung()
+                    min="0">
             </mat-form-field>
             {{mengeneinheitheizung}}
-
         </p>
-{{g}}g
+        <p>
+            CO2 im Haushalt: {{heitzmenge*heizart}}g
+        </p>
+            CO2 pro Person: {{heitzmenge*heizart /Personen_im_Haushalt}}g
+    </mat-tab>
+    <!-- <mat-tab label="Müll"> Content </mat-tab>-->
 
-
-
-
+    <mat-tab label="Ernährung">
 
 
     </mat-tab>
-    <mat-tab label="Müll"> Content </mat-tab>
-    <mat-tab label="Ernährung"> Content </mat-tab>
 
     <mat-tab label="Gesamt">
 
 
 
-        {{(km*verbrauch*co2prokm)+(kwh*co2prokwh)+(fla_h2o_ver*co2prolflasche)+ (leit_h2o_ver*co2prolleitung) + (flug_km*co2prokmflug) +"g"}}
+
 
     </mat-tab>
-</mat-tab-group>
+    <!--</mat-tab-group> -->
