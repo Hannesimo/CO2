@@ -10,10 +10,10 @@
         <option value="1 Tag">1 Tag</option>
     </select>
 </mat-form-field>
-<mat-form-field class="example-full-width">
-    <mat-label>Personen im Haushalt</mat-label>
-    <input [(ngModel)]="Personen_im_Haushalt" matInput placeholder="..." type="number" (change)=strom() min="1" step="1"
-        class="pers">
+<mat-form-field class="example-full-width" appearance="fill">
+    <mat-label >Personen im Haushalt</mat-label>
+    <input  [(ngModel)]="Personen_im_Haushalt" matInput placeholder="..." type="number" (change)=strom() min="1" step="1"
+        >
 </mat-form-field>
 <mat-tab-group>
 
@@ -28,9 +28,9 @@
     <mat-tab label="Strom">
         <mat-radio-group [(ngModel)]="co2prokwh" aria-label="Select an option" (change)=strom()>
             <p>
-                <mat-radio-button value="400">Normal</mat-radio-button>
+                <mat-radio-button value="401">Normal</mat-radio-button>
             </p>
-            <mat-radio-button value="20">Öko</mat-radio-button>
+            <mat-radio-button value="34">Öko</mat-radio-button>
         </mat-radio-group>
         <p>
             <mat-form-field class="example-full-width">
@@ -62,10 +62,8 @@
         </p>CO2: {{fla_h2o_ver*co2prolflasche }}g
     </mat-tab>
     <mat-tab label="Urlaub">
-        <p> </p>
-        Auto:
-        <app-auto></app-auto>
-        <h2></h2>
+
+
         Flüge:
         <p>
             <mat-form-field class="example-full-width">
@@ -74,6 +72,29 @@
             </mat-form-field>km
         </p>CO2: {{flug_km*co2prokmflug }}g
 
+        <h2></h2>
+
+        <p>Bahn: </p><p>
+            <mat-form-field class="example-full-width">
+                <mat-label>Strecke</mat-label>
+                <input [(ngModel)]="Bahn_km" matInput placeholder="..." type="number" step="10">
+            </mat-form-field>km
+        </p>CO2: {{Bahn_km*co2prokmBahn }}g
+        <p>
+        <h2> </h2>
+        Reisebus:
+        <p>
+        <mat-form-field class="example-full-width">
+            <mat-label>Strecke</mat-label>
+            <input [(ngModel)]="Rbus_km" matInput placeholder="..." type="number" step="10">
+        </mat-form-field>km
+    </p>
+        <p>
+            CO2: {{Rbus_km*Reisebusco2 }}g
+        </p>
+        <h2></h2>
+        Auto:
+        <app-auto></app-auto>
 
     </mat-tab>
     <mat-tab label="Internet">
@@ -86,6 +107,7 @@
         CO2: {{internet_gbit * g_pro_gbit }}g
 
     </mat-tab>
+
     <mat-tab label="Heizung">
 
 
@@ -118,7 +140,7 @@
         <p>
             CO2 im Haushalt: {{heitzmenge*heizart}}g
         </p>
-            CO2 pro Person: {{heitzmenge*heizart /Personen_im_Haushalt}}g
+        CO2 pro Person: {{heitzmenge*heizart /Personen_im_Haushalt}}g
     </mat-tab>
     <!-- <mat-tab label="Müll"> Content </mat-tab>-->
 
