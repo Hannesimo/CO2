@@ -1,6 +1,18 @@
-version: "3"
-services: 
+version: '3'
+services:
   co2:
+    build: .
+    restart: always
     labels:
-      - "j.simmet.top/co2"
-        
+      - "traefik.enable=true"
+      - "traefik.http.routers.co2.entrypoints=https"
+      - "traefik.http.routers.co2-secure.rule=Host(`j.simmet.top`)"
+      - "traefik.http.routers.co2-secure.tls=true"
+      - "traefik.http.services.co2.loadbalancer.server.port=80"
+      - "traefik.http.routers.co2-secure.tls.certresolver=http"
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true
+
